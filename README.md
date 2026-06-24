@@ -12,7 +12,6 @@ Projet personnel de cybersécurité réseau simulant une infrastructure d'entrep
 | VPN | OpenVPN | Accès distant avec certificats X.509 + MFA TOTP |
 | SIEM | Wazuh | Centralisation des logs, corrélation, alertes |
 | Endpoint | Sysmon | Surveillance activité Windows en temps réel |
-| Mini SOAR | Scripts Wazuh + API OPNsense | Réponse automatique aux incidents |
 
 ## Ce que couvre ce projet
 
