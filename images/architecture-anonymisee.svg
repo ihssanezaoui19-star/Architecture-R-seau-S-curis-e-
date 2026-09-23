@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="440" viewBox="0 0 960 440" role="img" aria-labelledby="title desc">
+  <title id="title">Zones du laboratoire et chemin des journaux</title>
+  <desc id="desc">Les réseaux utilisateurs, administration, invités et VPN sont filtrés par OPNsense ; le proxy et Suricata en mode miroir envoient leurs événements vers Wazuh.</desc>
+  <rect width="960" height="440" rx="22" fill="#0c1828"/>
+  <text x="36" y="47" fill="#f5faff" font-family="Arial,sans-serif" font-size="24" font-weight="700">Segmentation et visibilité · maquette VMware</text>
+  <text x="36" y="75" fill="#acc0d0" font-family="Arial,sans-serif" font-size="14">Flux autorisés par règles explicites · capture IDS en miroir</text>
+  <g stroke="#5686ac" stroke-width="3" fill="none"><path d="M255 154 H310 V331 M255 213 H310 M255 272 H310 M255 331 H310 M310 243 H332 M550 243 H626 M728 276 V334 M550 243 Q579 329 626 334"/></g>
+  <g fill="#1b3148" stroke="#60b3d4" stroke-width="2"><rect x="34" y="127" width="222" height="53" rx="9"/><rect x="34" y="186" width="222" height="53" rx="9"/><rect x="34" y="245" width="222" height="53" rx="9"/><rect x="34" y="304" width="222" height="53" rx="9"/></g>
+  <g fill="#f2f8fe" font-family="Arial,sans-serif" font-size="16" font-weight="700"><text x="53" y="160">Utilisateurs</text><text x="53" y="219">Administration</text><text x="53" y="278">Invités</text><text x="53" y="337">Clients VPN</text></g>
+  <rect x="331" y="191" width="220" height="104" rx="13" fill="#244256" stroke="#60dfb2" stroke-width="2"/>
+  <text x="441" y="233" text-anchor="middle" fill="#f6fbff" font-family="Arial,sans-serif" font-size="20" font-weight="700">OPNsense</text>
+  <text x="441" y="261" text-anchor="middle" fill="#cfebdf" font-family="Arial,sans-serif" font-size="14">règles entre zones</text>
+  <rect x="625" y="195" width="298" height="82" rx="12" fill="#1b3148" stroke="#61bbd5" stroke-width="2"/>
+  <text x="774" y="229" text-anchor="middle" fill="#f3f8ff" font-family="Arial,sans-serif" font-size="19" font-weight="700">Squid · sortie Web</text>
+  <text x="774" y="255" text-anchor="middle" fill="#b6ccda" font-family="Arial,sans-serif" font-size="14">ACL, refus et journaux</text>
+  <rect x="625" y="334" width="298" height="74" rx="12" fill="#233553" stroke="#8aa8f0" stroke-width="2"/>
+  <text x="774" y="366" text-anchor="middle" fill="#f3f8ff" font-family="Arial,sans-serif" font-size="18" font-weight="700">Wazuh · supervision</text>
+  <text x="774" y="390" text-anchor="middle" fill="#c4d0f0" font-family="Arial,sans-serif" font-size="13">OPNsense, Squid, Suricata, Sysmon</text>
+  <text x="445" y="376" text-anchor="middle" fill="#abcae1" font-family="Arial,sans-serif" font-size="14">Suricata : copie du trafic, alertes</text>
+</svg>

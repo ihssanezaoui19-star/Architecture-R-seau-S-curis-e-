@@ -1,64 +1,31 @@
-# Architecture Réseau Sécurisée — VMware Workstation
+# Architecture réseau segmentée et supervisée
 
-Projet personnel de cybersécurité réseau simulant une infrastructure d'entreprise complète sur **VMware Workstation**, basée sur le modèle **Zero Trust**.
+**Projet personnel de laboratoire sur VMware Workstation (2026), en évolution.** Le rapport utilise une organisation fictive et un plan d'adressage de test. Cette présentation se concentre sur les choix techniques et les vérifications utiles à un poste junior en sécurité réseau et Blue Team.
 
-## Technologies déployées
+## Problématique
 
-| Composant | Technologie | Rôle |
-|-----------|-------------|------|
-| Firewall | OPNsense | Firewall stateful, NAT, VPN, règles inter-VLAN |
-| Proxy web | Squid | Filtrage web, SSL Bump, authentification, cache |
-| IDS/IPS | Suricata | Détection d'intrusions en mode mirroring |
-| VPN | OpenVPN | Accès distant avec certificats X.509 + MFA TOTP |
-| SIEM | Wazuh | Centralisation des logs, corrélation, alertes |
-| Endpoint | Sysmon | Surveillance activité Windows en temps réel |
+Comment empêcher qu'un poste utilisateur, un invité ou un client VPN atteigne librement les services d'administration, tout en gardant un accès Web contrôlé et des traces exploitables en cas d'incident ? Dans un réseau plat, une règle trop large au pare-feu ou au VPN peut annuler les protections prévues par le dessin de l'architecture.
 
-## Ce que couvre ce projet
+## Architecture et travail réalisé
 
-- Configuration complète du firewall OPNsense (règles, NAT, DNS, NTP, backup)
-- Proxy Squid avec SSL Inspection, ACL, blocage malware et réseaux sociaux
-- Segmentation en VLANs isolés par rôle (Admin, Users, Guests, DMZ, Servers)
-- VPN OpenVPN avec certificats et authentification MFA
-- Déploiement complet de Wazuh (Indexer, Manager, Dashboard, Agents)
-- Règles Wazuh personnalisées pour OPNsense, Squid et Suricata
-- Mini SOAR : blocage automatique via l'API OPNsense sur alerte Wazuh
+| Couche | Configuration documentée | Vérification ou point corrigé |
+| --- | --- | --- |
+| Segmentation | Zones utilisateurs, administration, invités, DMZ et accès distant dans OPNsense | Revue des règles inter-zones ; accès à la console d'administration restreint |
+| Sortie Web | Proxy Squid, ACL de filtrage et journalisation | Capture d'un refus d'accès à une destination bloquée |
+| Accès distant | OpenVPN avec certificats et MFA TOTP | Règle trop large des clients VPN identifiée puis remplacée par des accès explicites (README du projet) |
+| Détection | Suricata en **mode miroir** et collecte centralisée dans Wazuh, avec Sysmon sur Windows | Traces utiles aux investigations ; ajustements de règles et décodage du nom d'utilisateur mentionnés dans le README |
 
-## Document
+![Extrait recadré d'un accès Web refusé par les ACL Squid dans la maquette](images/capture-proxy-acces-refuse.png)
 
-Le guide technique complet est disponible dans ce dépôt :
-`Architecture_Réseau_Sécurisée.docx`
+## Résultats observés et limites
 
-## Faiblesses identifiées lors des tests
+Le rapport montre les paramètres et des vérifications ponctuelles, notamment une navigation autorisée et un refus par ACL du proxy. Le README d'origine consignait aussi cinq problèmes rencontrés en test (console OPNsense accessible depuis la mauvaise zone, règle VPN trop large, journal Wazuh incomplet et signatures Suricata à mettre à jour) ainsi que les corrections apportées ; ces cas servent ici à expliquer la méthode de diagnostic. Le document seul ne démontre ni « couverture totale » des attaques ni un score Zero Trust universel.
 
-Ces problèmes ont été découverts pendant la phase de tests et corrigés. Ils sont mentionnés ici par transparence — faire des erreurs et les corriger fait partie de l'apprentissage.
+**Suricata analyse ici une copie du trafic : il alerte, mais ne bloque pas lui-même les paquets.** Un titre « mini SOAR » figure à la fin du rapport sans procédure ni preuve d'exécution ; je ne présente donc pas un blocage automatique comme résultat livré.
 
-**T-03 — Accès WebGUI OPNsense non restreint**
-La page de login OPNsense était accessible depuis le VLAN USERS. La règle de restriction n'était pas correctement appliquée. Correction : règle firewall ajoutée pour bloquer l'accès à l'interface admin hors VLAN ADMIN.
+## Documentation
 
-**T-07 — Traçabilité Wazuh incomplète**
-Wazuh recevait les logs Squid mais n'extrayait pas le nom d'utilisateur, seulement l'IP. Correction : modification du décodeur Wazuh pour parser correctement le champ username.
+- [Méthodologie pas à pas : règles, proxy, VPN, détection et corrections](METHODOLOGIE.md)
+- [Schéma simplifié sans plan d'adressage](images/architecture-anonymisee.svg)
 
-**T-09 — Clients VPN avec accès non restreint**
-Par défaut, OpenVPN appliquait une règle "allow all traffic" permettant aux clients VPN d'accéder à tous les VLANs, y compris ADMIN et WebGUI OPNsense. Correction : suppression de la règle automatique et création de règles explicites limitant les clients VPN aux ressources autorisées uniquement.
-
-**T-11 — Détection Nmap partielle**
-Suricata ne détectait pas les scans Nmap à cause de règles obsolètes. Correction : mise à jour des rulesets Emerging Threats et ajout de sources supplémentaires (Abuse.ch).
-
-**T-12 — Détection Metasploit insuffisante**
-Les signatures Suricata ne couvraient pas le trafic Metasploit sur le port 4444. Correction : mise à jour des rulesets avec signatures C2 et Metasploit.
-
----
-
-## Note importante
-
-Ce document représente l'état de l'infrastructure à un moment donné. Il est possible que vous constatiez des modifications, des ajustements ou des faiblesses qui ne sont pas documentés ici.
-
-Chaque jour et chaque nouvelle chose que j'apprends me permet de revoir mes choix, d'identifier des faiblesses et d'améliorer l'architecture. Je suis encore en apprentissage, ce projet n'est donc pas terminé — il y a encore beaucoup de choses à ajouter, corriger et explorer.
-
-Si vous avez des remarques, des conseils ou des suggestions, n'hésitez pas à me contacter :
-
-📧 ihssanezaoui19@gmail.com
-
-## Auteur
-
-**ZAOUI Ihssane** — Projet personnel cybersécurité · 2026
+Le rapport technique déjà présent dans ce dépôt porte la mention « Confidentiel — Usage interne uniquement » et contient des détails de laboratoire. Les visuels de cette page sont recadrés ou reconstruits sans nom d'organisation, adresse, compte ou secret. Sa présence dans l'historique GitHub demande une revue distincte de confidentialité.
