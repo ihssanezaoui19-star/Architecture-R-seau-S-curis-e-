@@ -22,6 +22,12 @@ Un réseau peut paraître segmenté sur un schéma, mais une règle de pare-feu 
 
 ![Schéma simplifié sans noms ni plan d'adressage](images/architecture-anonymisee.svg)
 
+**Schéma actualisé du portfolio (vue publique reconstruite)**
+
+![Architecture détaillée des zones, contrôles d’accès et sources de visibilité](images/architecture-detaillee.svg)
+
+Vue publique reconstruite de la segmentation, du VPN, d’OPNsense, de Suricata et de Wazuh. Elle décrit des contrôles précis ; elle ne garantit pas que toute la maquette soit sécurisée. [Ouvrir le schéma en grand](images/architecture-detaillee.svg).
+
 ## Résultats observés
 
 Le rapport montre des réglages de segmentation, VPN, proxy et supervision, ainsi qu'un **refus Web effectif par ACL Squid**. Le README initial consignait des erreurs trouvées pendant les essais puis des corrections : WebGUI visible depuis la mauvaise zone, VPN trop permissif, identité absente de certains journaux et signatures Suricata insuffisantes. Les captures disponibles attestent des configurations et de certains essais ; elles ne constituent pas une campagne exhaustive de validation.
