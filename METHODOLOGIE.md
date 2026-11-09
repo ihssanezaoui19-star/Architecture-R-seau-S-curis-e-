@@ -18,6 +18,12 @@
 
 ![Architecture simplifiée sans adresses](images/architecture-anonymisee.svg)
 
+**Schéma actualisé du portfolio (vue publique reconstruite)**
+
+![Schéma détaillé des flux entre accès, segmentation et observation](images/architecture-detaillee.svg)
+
+Cette vue reprend le schéma interactif du portfolio. Le contrôle Web par Squid est décrit dans la méthode ; Suricata est ici un capteur de détection et aucune réponse automatique n’est revendiquée. [Ouvrir le schéma en grand](images/architecture-detaillee.svg).
+
 **Vérification documentée :** l'ancien README indique que la WebGUI OPNsense était initialement accessible depuis le réseau des utilisateurs (T-03), puis qu'une règle a été ajoutée pour réserver son accès à l'administration. Une revue complète exige de retester depuis **les deux zones** et de préserver un chemin d'administration pour corriger une mauvaise règle ; cette campagne complète n'est pas publiée.
 
 ## 3. Contrôler la sortie Web avec Squid
